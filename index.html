@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unique Words Alphabetizer</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; line-height: 1.6; }
+    textarea { width: 100%; height: 150px; }
+    button { padding: 10px 20px; margin-top: 10px; }
+    ol { background: #f0f0f0; padding: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Unique Words Alphabetizer</h2>
+  <p>Paste your paragraph below:</p>
+  <textarea id="inputText"></textarea>
+  <br>
+  <button onclick="processText()">Extract & Sort</button>
+
+  <h3>Result:</h3>
+  <ol id="output"></ol>
+
+  <script>
+    function processText() {
+      const text = document.getElementById('inputText').value;
+
+      const words = text
+        .toLowerCase()
+        .replace(/[.,!?;:"()\[\]{}\-—_]/g, '') // remove punctuation
+        .split(/\s+/)                         // split by whitespace
+        .filter(word => word);               // remove empty strings
+
+      const uniqueWords = Array.from(new Set(words)).sort();
+
+      const outputEl = document.getElementById('output');
+      outputEl.innerHTML = ''; // Clear previous
+
+      uniqueWords.forEach(word => {
+        const li = document.createElement('li');
+        li.textContent = word;
+        outputEl.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>
