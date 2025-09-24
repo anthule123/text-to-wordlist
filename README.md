@@ -1,4 +1,4 @@
-# 🧠 Unique Words Alphabetizer
+# Text to wordlist
 
 A minimal single-page web tool that takes any paragraph you write, extracts **unique words**, and lists them in **alphabetical order with numbering**.
 
