@@ -7,41 +7,55 @@
     body { font-family: sans-serif; max-width: 600px; margin: 40px auto; line-height: 1.6; }
     textarea { width: 100%; height: 150px; }
     button { padding: 10px 20px; margin-top: 10px; }
-    ol { background: #f0f0f0; padding: 10px; }
+    ul { background: #f0f0f0; padding: 10px; }
   </style>
 </head>
 <body>
 
   <h2>Unique Words Alphabetizer</h2>
   <p>Paste your paragraph below:</p>
-  <textarea id="inputText"> Hello World!</textarea>
+
+  <textarea id="inputText">Hello world</textarea>
   <br>
   <button onclick="processText()">Extract & Sort</button>
 
   <h3>Result:</h3>
+    <p class="intro" id="introSentence"></p> <!-- This will display the intro sentence -->
   <ol id="output"></ol>
 
   <script>
+     function introSentence(len){
+        if(len<=1) return `There is ${len} word.`;
+        else return `There are ${len} words.`; 
+    }
     function processText() {
       const text = document.getElementById('inputText').value;
 
+      // Tách từ theo dấu phẩy, chấm, khoảng trắng, dấu câu
       const words = text
-        .toLowerCase()
-        .replace(/[.,!?;:"()\[\]{}\-—_]/g, '') // remove punctuation
-        .split(/\s+/)                         // split by whitespace
-        .filter(word => word);               // remove empty strings
+        .toLowerCase() // Chuyển về chữ thường
+        .replace(/[.,!?;:"()\[\]{}\-—_]/g, ' ') // Loại bỏ dấu câu
+        .split(/\s+/) // Tách từ theo khoảng trắng
+        .filter(word => word && !/\d/.test(word)); // Loại bỏ từ rỗng và từ có chứa số
 
+      // Loại bỏ các từ trùng lặp và sắp xếp theo thứ tự alphabet
       const uniqueWords = Array.from(new Set(words)).sort();
+           // Hiển thị câu intro
+      const introEl = document.getElementById('introSentence');
+      introEl.textContent = introSentence(uniqueWords.length); // Gọi hàm introSentence
 
+      // Hiển thị kết quả
       const outputEl = document.getElementById('output');
-      outputEl.innerHTML = ''; // Clear previous
-
+      outputEl.innerHTML = ''; // Xóa kết quả cũ
+     
+    //   outputEl.appendChild(intro)
       uniqueWords.forEach(word => {
         const li = document.createElement('li');
-        li.textContent = word;
+        li.textContent = word; // Chỉ hiển thị từ, không có số thứ tự
         outputEl.appendChild(li);
       });
     }
+   
   </script>
 
 </body>
